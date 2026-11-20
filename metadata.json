@@ -1,0 +1,7 @@
+{
+  "name": "CivicPulse BRICS",
+  "description": "Track 1: AI for Digital Public Infrastructure & Governance — A multilingual Digital Public Good platform that aggregates citizen development requests (voice, vision, messaging) and fuses them with national demographic, infrastructure, and public investment datasets to surface demand hotspots and recommend high-priority projects for BRICS policymakers.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
