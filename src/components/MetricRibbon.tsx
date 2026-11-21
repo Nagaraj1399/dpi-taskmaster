@@ -1,50 +1,71 @@
 import React from 'react';
-import { Users, Building2, CheckCircle2, ShieldAlert, Cpu } from 'lucide-react';
-import { BRICS_COUNTRIES } from '../data/bricsData';
+import { Building2, CheckCircle2, Cpu, Users } from 'lucide-react';
+import { BRICS_COUNTRIES } from '../shared/bricsData';
+import type { BricsCountryCode } from '../shared/types';
 
 interface MetricRibbonProps {
-  selectedCountryCode: string;
+  selectedCountryCode: BricsCountryCode;
   totalGrievancesCount: number;
 }
 
+/** Displays key national baseline metrics and citizen intake counts for the active BRICS nation. */
 export const MetricRibbon: React.FC<MetricRibbonProps> = ({
   selectedCountryCode,
   totalGrievancesCount,
 }) => {
-  const selectedCountry = BRICS_COUNTRIES[selectedCountryCode] || BRICS_COUNTRIES['IN'];
+  const selectedCountry = BRICS_COUNTRIES[selectedCountryCode] ?? BRICS_COUNTRIES.IN;
 
   return (
-    <section id="brics-metric-ribbon" className="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
+    <section
+      id="brics-metric-ribbon"
+      aria-label="National baseline summary"
+      className="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {/* Active Jurisdiction */}
           <div className="bg-slate-50/80 border border-slate-200/80 rounded-xl p-2.5 flex items-center space-x-3 shadow-xs">
-            <span className="text-2xl">{selectedCountry.flag}</span>
+            <span className="text-2xl" aria-hidden="true">
+              {selectedCountry.flag}
+            </span>
             <div className="min-w-0">
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Active Member State</div>
-              <div className="text-sm font-extrabold text-slate-900 truncate">{selectedCountry.name}</div>
+              <div className="text-[11px] uppercase tracking-wider text-slate-600 font-bold">
+                Active Member State
+              </div>
+              <div className="text-sm font-extrabold text-slate-900 truncate">
+                {selectedCountry.name}
+              </div>
             </div>
           </div>
 
           {/* Demographic Base */}
           <div className="bg-slate-50/80 border border-slate-200/80 rounded-xl p-2.5 flex items-center space-x-3 shadow-xs">
             <div className="p-2 rounded-lg bg-blue-50 text-blue-700 border border-blue-200">
-              <Users className="w-4 h-4" />
+              <Users className="w-4 h-4" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Census Population</div>
-              <div className="text-sm font-extrabold text-slate-900">{selectedCountry.demographics.totalPopulation}</div>
+              <div className="text-[11px] uppercase tracking-wider text-slate-600 font-bold">
+                Census Population
+              </div>
+              <div className="text-sm font-extrabold text-slate-900">
+                {selectedCountry.demographics.totalPopulation}
+              </div>
             </div>
           </div>
 
           {/* Government Portal & API */}
           <div className="bg-slate-50/80 border border-slate-200/80 rounded-xl p-2.5 flex items-center space-x-3 shadow-xs">
             <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <Building2 className="w-4 h-4" />
+              <Building2 className="w-4 h-4" aria-hidden="true" />
             </div>
             <div className="truncate min-w-0">
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Gov Open Portal</div>
-              <div className="text-xs font-bold text-emerald-800 truncate" title={selectedCountry.openDataPortalName}>
+              <div className="text-[11px] uppercase tracking-wider text-slate-600 font-bold">
+                Gov Open Portal
+              </div>
+              <div
+                className="text-xs font-bold text-emerald-800 truncate"
+                title={selectedCountry.openDataPortalName}
+              >
                 {selectedCountry.openDataPortalName.split('(')[0]}
               </div>
             </div>
@@ -53,24 +74,29 @@ export const MetricRibbon: React.FC<MetricRibbonProps> = ({
           {/* Public Capital Budget Fused */}
           <div className="bg-slate-50/80 border border-slate-200/80 rounded-xl p-2.5 flex items-center space-x-3 shadow-xs">
             <div className="p-2 rounded-lg bg-amber-50 text-amber-700 border border-amber-200">
-              <Cpu className="w-4 h-4" />
+              <Cpu className="w-4 h-4" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Public Capital Plan</div>
-              <div className="text-sm font-extrabold text-amber-900">{selectedCountry.publicInvestment.totalBudgetUSD}</div>
+              <div className="text-[11px] uppercase tracking-wider text-slate-600 font-bold">
+                Public Capital Plan
+              </div>
+              <div className="text-sm font-extrabold text-amber-900">
+                {selectedCountry.publicInvestment.totalBudgetUSD}
+              </div>
             </div>
           </div>
 
-          {/* DPG Integrity & Zero Hallucination */}
+          {/* Grounded Pipeline & Grievance Count */}
           <div className="col-span-2 md:col-span-1 bg-emerald-50/60 border border-emerald-200 rounded-xl p-2.5 flex items-center space-x-3 shadow-xs">
             <div className="p-2 rounded-lg bg-emerald-100 text-emerald-700 border border-emerald-300">
-              <CheckCircle2 className="w-4 h-4" />
+              <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <div className="text-[11px] uppercase tracking-wider text-emerald-800 font-bold">DPG Guardrail</div>
+              <div className="text-[11px] uppercase tracking-wider text-emerald-800 font-bold">
+                DPG Guardrail
+              </div>
               <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                <span>Zero Hallucination</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-ping"></span>
+                <span>Open-Data Grounded ({totalGrievancesCount})</span>
               </div>
             </div>
           </div>

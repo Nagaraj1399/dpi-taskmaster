@@ -1,128 +1,89 @@
 # CivicPulse BRICS — AI for Digital Public Infrastructure & Governance
 
-CivicPulse BRICS is an open Digital Public Good (DPG) and multi-jurisdictional AI governance platform engineered for BRICS member nations. It aggregates citizen development requests across multimodal channels (voice notes, IVR telephony, messaging apps, physical damage photo triage) and fuses them with official demographic, infrastructure, and capital outlay datasets to surface geographic demand hotspots and deliver explainable, prioritized policy interventions.
+CivicPulse BRICS is a multi-jurisdictional Digital Public Good (DPG) governance platform for the 11 BRICS+ nations (`BR`, `RU`, `IN`, `CN`, `ZA`, `EG`, `ET`, `IR`, `SA`, `AE`, `ID`). It pairs multimodal citizen grievance intake (Voice IVR, messaging, web portals, and infrastructure photo inspection) with official demographic, infrastructure, and capital-budget baselines to compute deterministic gap scores and Gemini-grounded policy recommendations.
 
 ---
 
 ## 1. Architecture Overview
 
-- **Frontend**: React 18, TypeScript, Tailwind CSS, Radix UI Primitives (`Tabs`, `Dialog`, `DropdownMenu`, `Tooltip`, `Slider`), Lucide Icons.
-- **Backend Service Layer**: Node.js & Express REST API running server-side with strict parameterization and input validation.
-- **AI & Multimodal Triage**: Google GenAI SDK (`@google/genai`) with automated resilient model fallback ladder (`gemini-3.6-flash` -> `gemini-3.1-flash-lite` -> `gemini-flash-latest` -> `gemini-3.7-flash`).
-- **Data Integrity & Cryptography**: SHA-256 telemetry seals for live REST API verification and baseline synchronization.
+```text
+├── server.ts                        # Node HTTP bootstrap & dev-only Vite middleware
+├── src/
+│   ├── shared/                      # Isomorphic domain models, constants, Zod schemas, scoring
+│   │   ├── constants.ts             # Named operational constants & allowlists
+│   │   ├── types.ts                 # Shared TypeScript interfaces
+│   │   ├── schemas.ts               # Zod validation & prototype-pollution key checks
+│   │   ├── scoring.ts               # Deterministic sector baseline & gap-severity math
+│   │   └── bricsData.ts             # 11 sovereign BRICS+ baseline datasets & sample grievances
+│   ├── server/                      # Express backend modules
+│   │   ├── app.ts                   # Express factory (Helmet, CORS, routes, 404, error handler)
+│   │   ├── config.ts                # Fail-fast Zod environment validation
+│   │   ├── errors.ts                # Typed HTTP error hierarchy (400/404/422/502/503)
+│   │   ├── logger.ts                # Structured JSON logger (debug/info/warn/error)
+│   │   ├── middleware/              # validateBody, createAiRateLimiter, errorHandler
+│   │   ├── routes/                  # health, brics, fusion, vision, voice routers
+│   │   └── services/                # ai (Gemini fallback ladder), fusion, verification (SHA-256 + SSRF)
+│   └── components/                  # React 19 UI + Radix primitives + custom hooks
+│       ├── ui/                      # Radix Dialog, Tabs, Slider, DropdownMenu & shared style tokens
+│       ├── citizen-ingestion/       # Voice recorder, IVR dialpad, photo vision triage, grievance form
+│       ├── data-fusion/             # Pipeline steps, pillars grid, provenance & audit card
+│       ├── dataset-studio/          # Modal, 6 schema tabs, presets, JSON IO, API verification hook
+│       ├── datasets-explorer/       # Official repository cards & quick API verification hook
+│       └── submission-package/      # Evaluation checklist, 12-slide pitch deck, demo script
+└── docs/API.md                      # REST API request/response contracts and error codes
+```
+
+### Verification & Honesty Guarantees
+
+- **No fabricated telemetry**: External REST API checks (`POST /api/datasets/verify-and-sync`) execute SSRF-checked HTTP probes and block persistence (`HTTP 422`) if any schema or endpoint check fails.
+- **Reproducible SHA-256 seals**: Digests are generated deterministically via `crypto.createHash('sha256')` over sorted canonical JSON payloads.
+- **Explicit AI error states**: Missing `GEMINI_API_KEY` returns `503 AI_SERVICE_UNAVAILABLE` and upstream failures return `502 UPSTREAM_AI_ERROR` rather than synthetic fallback results.
 
 ---
 
-## 2. Threat Modeling & Countermeasures
+## 2. Environment Variables
 
-| Threat Zone | Threat Scenario | Countermeasure Implemented |
-| :--- | :--- | :--- |
-| **Input Surfaces** | Untrusted citizen inputs, malformed payload injections | Strict schema validation, parameterization, and null-safe body destructuring |
-| **Planning & Reasoning** | Prompt injection via citizen grievance descriptions | Plain-data boundaries with strict system prompt isolation and output sanitization |
-| **Tool & Execution** | SSRF or unauthorized API endpoint probing | Domain allowlisting, URL parsing validation, and zero dynamic code evaluation |
-| **Memory & State** | Cross-tenant data tampering or unauthorized document writes | Owner-bound access rules and strict schema compliance |
-| **Inter-System Communication**| API key exposure in client bundles | Zero client-side API keys; all secret credentials proxied through server-side routes |
+Copy `.env.example` to `.env` before running locally:
 
----
-
-## 3. Prerequisites & Environment Setup
-
-1. **Google Cloud SDK (`gcloud`)**: Install and initialize the gcloud CLI.
-   ```bash
-   gcloud init
-   gcloud config set project YOUR_PROJECT_ID
-   ```
-2. **Enable Required Google Cloud APIs**:
-   ```bash
-   gcloud services enable \
-     run.googleapis.com \
-     secretmanager.googleapis.com \
-     firestore.googleapis.com \
-     cloudbuild.googleapis.com
-   ```
+| Variable                 | Required            | Default                  | Description                                                          |
+| :----------------------- | :------------------ | :----------------------- | :------------------------------------------------------------------- |
+| `PORT`                   | No                  | `3000`                   | HTTP port bound by `server.ts` (`1`–`65535`).                        |
+| `NODE_ENV`               | No                  | `development`            | `development`, `production`, or `test`.                              |
+| `LOG_LEVEL`              | No                  | `info`                   | Structured logger threshold: `debug`, `info`, `warn`, `error`.       |
+| `GEMINI_API_KEY`         | In prod / AI routes | `—`                      | Server-side Google GenAI API key. Never exposed to the browser.      |
+| `REQUIRE_GEMINI_API_KEY` | No                  | `false` (`true` in prod) | Fail server startup if `GEMINI_API_KEY` is absent.                   |
+| `GEMINI_MODEL_PRIMARY`   | No                  | `gemini-4-hydrogen`      | Primary Gemini model for structured fusion JSON.                     |
+| `GEMINI_MODEL_FALLBACKS` | No                  | `gemini-3.1-flash-lite`  | Comma-separated fallback models.                                     |
+| `GEMINI_VISION_MODEL`    | No                  | `gemini-4-hydrogen`      | Gemini model used for `/api/vision/analyze-photo`.                   |
+| `CORS_ORIGIN`            | No                  | `""`                     | Comma-separated allowed browser origins (or `*` for local dev only). |
+| `APP_URL`                | No                  | `""`                     | Optional deployed URL metadata.                                      |
 
 ---
 
-## 4. Secret Management Setup
-
-Store all operational credentials in Google Cloud Secret Manager to prevent hardcoded credentials:
+## 3. Running, Testing, and Building
 
 ```bash
-# Create and populate the secret
-gcloud secrets create GEMINI_API_KEY --replication-policy="automatic"
-echo -n "YOUR_GEMINI_API_KEY" | gcloud secrets versions add GEMINI_API_KEY --data-file=-
+# Install dependencies
+npm install
 
-# Grant the default Cloud Run service account access to read the secret
-PROJECT_NUMBER=$(gcloud projects describe YOUR_PROJECT_ID --format="value(projectNumber)")
+# Start development server (Express + Vite dev middleware on port 3000)
+npm run dev
 
-gcloud secrets add-iam-policy-binding GEMINI_API_KEY \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/secretmanager.secretAccessor"
+# Run ESLint (typescript-eslint, react-hooks, jsx-a11y) + TypeScript strict typecheck
+npm run lint
+
+# Format codebase with Prettier
+npm run format
+
+# Run Vitest unit, integration, and React Testing Library suites
+npm test
+
+# Run tests with V8 coverage report
+npm run test:coverage
+
+# Build production client (dist/) and bundled server (dist/server.cjs)
+npm run build
+npm start
 ```
 
----
-
-## 5. Firestore Security Rules
-
-Deploy the following security rules to enforce owner-bound data isolation and prevent unauthorized cross-user modifications:
-
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId}/interactions/{interactionId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
-```
-
----
-
-## 6. Cloud Run Deployment Flow
-
-Deploy the application to Google Cloud Run with the Secret Manager binding and container ingress configuration:
-
-```bash
-gcloud run deploy civicpulse-brics \
-  --source . \
-  --region us-central1 \
-  --platform managed \
-  --allow-unauthenticated \
-  --set-secrets="GEMINI_API_KEY=GEMINI_API_KEY:latest" \
-  --port 3000
-```
-
----
-
-## 7. Required Campaign Verification Labeling
-
-To register the service for automated challenge verification, apply the required campaign label:
-
-```bash
-gcloud run services update civicpulse-brics \
-  --update-labels=dev-tutorial=cloud-run-ai-challenge \
-  --region=us-central1
-```
-
----
-
-## 8. Functional Walkthrough & Test Guide
-
-1. **Country & Linguistic Context Switching**: Select between BRICS nations (India, Brazil, Egypt, South Africa, UAE). Verify that demographic indices, regional infrastructure scores, and sample citizen grievances update dynamically.
-2. **Citizen Multimodal Ingestion**:
-   - **Voice/IVR**: Toggle microphone recording or test regional IVR dialpad DTMF inputs.
-   - **Photo Damage Triage**: Select or upload an infrastructure defect photograph to trigger Gemini Vision analysis and compute severity ratings (0–100).
-   - **Messaging Apps**: Submit citizen grievance forms with automated Sector and Urgency categorization.
-3. **Data Fusion & Spatial Demand Hotspots**:
-   - Run AI Data Fusion to cross-reference citizen requests with national budget lines.
-   - Review the Priority Score Breakdown, Infrastructure Deficit Weighting, and Gemini Explainability Narrative.
-4. **Live Government Dataset & API Studio**:
-   - Open the Dataset Studio Modal.
-   - Edit demographic indicators or load official presets (e.g., MoSPI, Jal Jeevan Mission, Tamil Nadu Registry).
-   - Trigger "Verify with API" to validate schemas, verify HTTP response, and generate a SHA-256 cryptographic proof.
-5. **Policymaker Dashboard & GIS Heatmap**:
-   - Filter prioritized projects by sector and urgency.
-   - Inspect GIS district clusters and export standardized policy briefs.
-6. **Executive Submission Package**:
-   - Switch to the Submission Package view to inspect the project briefing, architecture, and deployment readiness.
+See [docs/API.md](./docs/API.md) for full endpoint specifications and error codes.

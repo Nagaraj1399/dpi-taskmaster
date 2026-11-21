@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export type LanguageCode = 'en' | 'ta' | 'es' | 'pt' | 'ru' | 'ar' | 'zh';
 
@@ -9,7 +9,8 @@ export interface LanguageOption {
   flag: string;
 }
 
-export const SUPPORTED_LANGUAGES: LanguageOption[] = [
+/** Supported interface locales across BRICS+ communities. */
+export const SUPPORTED_LANGUAGES: readonly LanguageOption[] = [
   { code: 'en', label: 'English', nativeLabel: 'English', flag: '🇬🇧' },
   { code: 'ta', label: 'Tamil', nativeLabel: 'தமிழ்', flag: '🇮🇳' },
   { code: 'es', label: 'Spanish', nativeLabel: 'Español', flag: '🇪🇸' },
@@ -37,7 +38,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'nav.tab.package': 'Pitch Deck & Submission Kit',
     'nav.telemetry': 'JSON Telemetry',
     'datasets.header.title': 'Official Sovereign Repositories',
-    'datasets.header.subtitle': 'Verified baseline statistical metrics & capital project registries.',
+    'datasets.header.subtitle':
+      'Verified baseline statistical metrics & capital project registries.',
     'datasets.btn.enterRealData': 'Enter Real Data',
     'datasets.btn.verifyApi': 'Verify with Live API',
     'datasets.tab.all': 'All Verified Datasets',
@@ -46,7 +48,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'datasets.tab.investment': '3. Public Investment Plans',
     'datasets.tab.publicFeeds': '4. Global Public Feeds (WHO / FAO)',
     'fusion.title': 'Cross-Reference & Telemetry Fusion Engine',
-    'fusion.subtitle': 'Fuses real-time regional citizen voice/text submissions with official baseline demographic datasets, infrastructure indices, and public investment plans.',
+    'fusion.subtitle':
+      'Fuses real-time regional citizen voice/text submissions with official baseline demographic datasets, infrastructure indices, and public investment plans.',
     'ingestion.title': 'Citizen Telemetry Ingestion Gateway',
     'policy.title': 'BRICS Demand Hotspots & High-Priority Project Recommendations',
   },
@@ -70,7 +73,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'datasets.tab.investment': '3. பொது முதலீட்டுத் திட்டங்கள்',
     'datasets.tab.publicFeeds': '4. உலகளாவிய பொதுத் தரவுகள் (WHO / FAO)',
     'fusion.title': 'குடிமக்கள் & அரசு தரவு இணைவு இயந்திரம்',
-    'fusion.subtitle': 'குடிமக்களின் குரல்வழி/உரை பதிவுகளை அரசு புள்ளிவிவரங்கள் மற்றும் திட்டங்களுடன் இணைத்து துல்லியமாக ஆய்வு செய்கிறது.',
+    'fusion.subtitle':
+      'குடிமக்களின் குரல்வழி/உரை பதிவுகளை அரசு புள்ளிவிவரங்கள் மற்றும் திட்டங்களுடன் இணைத்து துல்லியமாக ஆய்வு செய்கிறது.',
     'ingestion.title': 'குடிமக்கள் கருத்துப் பதிவு மையம்',
     'policy.title': 'முன்னுரிமை திட்டங்கள் மற்றும் தேவை மையங்கள்',
   },
@@ -85,7 +89,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'nav.tab.package': 'Kit de Presentación y Propuesta',
     'nav.telemetry': 'Telemetría JSON',
     'datasets.header.title': 'Repositorios Oficiales de Datos',
-    'datasets.header.subtitle': 'Métricas estadísticas de referencia verificadas y registros de proyectos de capital.',
+    'datasets.header.subtitle':
+      'Métricas estadísticas de referencia verificadas y registros de proyectos de capital.',
     'datasets.btn.enterRealData': 'Ingresar Datos Reales',
     'datasets.btn.verifyApi': 'Verificar con API en Vivo',
     'datasets.tab.all': 'Todos los Datos Verificados',
@@ -94,7 +99,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'datasets.tab.investment': '3. Planes de Inversión Pública',
     'datasets.tab.publicFeeds': '4. Fuentes Públicas Globales (OMS / FAO)',
     'fusion.title': 'Motor de Fusión y Telemetría de Gobernanza IA',
-    'fusion.subtitle': 'Fusiona solicitudes ciudadanas de voz/texto en tiempo real con datos demográficos, infraestructura y planes de inversión.',
+    'fusion.subtitle':
+      'Fusiona solicitudes ciudadanas de voz/texto en tiempo real con datos demográficos, infraestructura y planes de inversión.',
     'ingestion.title': 'Portal de Recepción de Solicitudes Ciudadanas',
     'policy.title': 'Recomendaciones de Proyectos Prioritarios y Puntos Críticos',
   },
@@ -109,7 +115,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'nav.tab.package': 'Kit de Submissão e Pitch',
     'nav.telemetry': 'Telemetria JSON',
     'datasets.header.title': 'Repositórios Oficiais Verificados',
-    'datasets.header.subtitle': 'Métricas estatísticas de linha de base e registros de projetos de capital.',
+    'datasets.header.subtitle':
+      'Métricas estatísticas de linha de base e registros de projetos de capital.',
     'datasets.btn.enterRealData': 'Inserir Dados Reais',
     'datasets.btn.verifyApi': 'Verificar com API',
     'datasets.tab.all': 'Todos os Dados Verificados',
@@ -118,7 +125,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'datasets.tab.investment': '3. Planos de Investimento Público',
     'datasets.tab.publicFeeds': '4. Feeds Públicos Globais (OMS / FAO)',
     'fusion.title': 'Motor de Fusão e Telemetria de Dados',
-    'fusion.subtitle': 'Cruza relatos de cidadãos em tempo real com dados censitários e orçamentos de infraestrutura.',
+    'fusion.subtitle':
+      'Cruza relatos de cidadãos em tempo real com dados censitários e orçamentos de infraestrutura.',
     'ingestion.title': 'Central de Ingestão de Demandas Cidadãs',
     'policy.title': 'Recomendações Prioritárias para Gestores Públicos',
   },
@@ -142,7 +150,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'datasets.tab.investment': '3. Планы госинвестиций',
     'datasets.tab.publicFeeds': '4. Глобальные данные (ВОЗ / ФАО)',
     'fusion.title': 'Движок слияния данных и аналитики ИИ',
-    'fusion.subtitle': 'Объединяет обращения граждан в реальном времени с официальными демографическими данными и бюджетами.',
+    'fusion.subtitle':
+      'Объединяет обращения граждан в реальном времени с официальными демографическими данными и бюджетами.',
     'ingestion.title': 'Шлюз приема обращений граждан',
     'policy.title': 'Рекомендации приоритетных проектов для БРИКС',
   },
@@ -166,7 +175,8 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'datasets.tab.investment': '٣. خطط الاستثمار العام',
     'datasets.tab.publicFeeds': '٤. مصادر البيانات العالمية (منظمة الصحة / الفاو)',
     'fusion.title': 'محرك دمج البيانات والتحليل الذكي',
-    'fusion.subtitle': 'دمج بلاغات المواطنين في الوقت الفعلي مع البيانات الديموغرافية ومؤشرات البنية التحتية.',
+    'fusion.subtitle':
+      'دمج بلاغات المواطنين في الوقت الفعلي مع البيانات الديموغرافية ومؤشرات البنية التحتية.',
     'ingestion.title': 'مركز استقبال بلاغات المواطنين',
     'policy.title': 'توصيات المشاريع ذات الأولوية لصناع القرار',
   },
@@ -190,27 +200,26 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'datasets.tab.investment': '3. 公共投资计划',
     'datasets.tab.publicFeeds': '4. 全球公共数据源 (WHO / FAO)',
     'fusion.title': '跨领域数据融合与决策分析引擎',
-    'fusion.subtitle': '将实时公众语音与文本诉求与国家人口基准、基础设施指数及财政投资规划深度融合。',
+    'fusion.subtitle':
+      '将实时公众语音与文本诉求与国家人口基准、基础设施指数及财政投资规划深度融合。',
     'ingestion.title': '公众多渠道诉求接入门户',
     'policy.title': '金砖国家重点民生项目决策建议',
-  }
+  },
 };
 
 const LanguageContext = createContext<LanguageContextType>({
   language: 'en',
   setLanguage: () => {},
-  t: (key, defaultText) => defaultText,
+  t: (_key, defaultText) => defaultText,
 });
 
+/** Provides localized UI copy across the 7 supported BRICS+ interface languages. */
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<LanguageCode>('en');
 
-  const t = (key: string, defaultText: string) => {
+  const t = (key: string, defaultText: string): string => {
     const langDict = TRANSLATIONS[language];
-    if (langDict && langDict[key]) {
-      return langDict[key];
-    }
-    return defaultText;
+    return langDict?.[key] ?? defaultText;
   };
 
   return (
@@ -220,4 +229,5 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   );
 };
 
-export const useLanguage = () => useContext(LanguageContext);
+/** Returns the active interface language code, setter, and translation lookup helper. */
+export const useLanguage = (): LanguageContextType => useContext(LanguageContext);

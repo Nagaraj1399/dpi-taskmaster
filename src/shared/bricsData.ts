@@ -1,4 +1,10 @@
-import { BricsCountry, BricsCountryCode, CitizenGrievance, DemandHotspot, PolicymakerProjectRecommendation } from '../types';
+import type {
+  BricsCountry,
+  BricsCountryCode,
+  CitizenGrievance,
+  DemandHotspot,
+  PolicymakerProjectRecommendation,
+} from './types.js';
 
 export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
   IN: {
@@ -12,7 +18,12 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
     openDataPortalUrl: 'https://data.gov.in',
     censusAgency: 'Office of the Registrar General & Census Commissioner / MoSPI',
     primaryLanguages: ['English', 'Hindi', 'Tamil', 'Telugu', 'Bengali', 'Marathi'],
-    sampleRegions: ['Tamil Nadu (Madurai / Tirunelveli)', 'Uttar Pradesh (Varanasi)', 'Maharashtra (Pune)', 'Assam (Guwahati)'],
+    sampleRegions: [
+      'Tamil Nadu (Madurai / Tirunelveli)',
+      'Uttar Pradesh (Varanasi)',
+      'Maharashtra (Pune)',
+      'Assam (Guwahati)',
+    ],
     demographics: {
       totalPopulation: '1,428,627,663',
       ruralPercentage: 64.9,
@@ -57,7 +68,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$2.1 Billion',
           sector: 'Digital & Power',
           status: 'Critical Review',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -65,7 +76,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 54.2,
       copernicusSatelliteHeatScore: 68.1,
       meteorologicalAlertLevel: 'Advisory',
-    }
+    },
   },
   BR: {
     code: 'BR',
@@ -78,7 +89,12 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
     openDataPortalUrl: 'https://dados.gov.br',
     censusAgency: 'IBGE (Instituto Brasileiro de Geografia e Estatística)',
     primaryLanguages: ['Portuguese'],
-    sampleRegions: ['Bahia (Feira de Santana)', 'São Paulo (Campinas)', 'Amazonas (Manaus)', 'Minas Gerais (Montes Claros)'],
+    sampleRegions: [
+      'Bahia (Feira de Santana)',
+      'São Paulo (Campinas)',
+      'Amazonas (Manaus)',
+      'Minas Gerais (Montes Claros)',
+    ],
     demographics: {
       totalPopulation: '216,422,446',
       ruralPercentage: 12.2,
@@ -117,7 +133,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$4.1 Billion',
           sector: 'Healthcare',
           status: 'On Track',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -125,7 +141,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 28.4,
       copernicusSatelliteHeatScore: 52.0,
       meteorologicalAlertLevel: 'Normal',
-    }
+    },
   },
   RU: {
     code: 'RU',
@@ -138,7 +154,12 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
     openDataPortalUrl: 'https://data.gov.ru',
     censusAgency: 'Rosstat (Federal State Statistics Service)',
     primaryLanguages: ['Russian', 'Tatar'],
-    sampleRegions: ['Tatarstan (Kazan)', 'Sverdlovsk (Yekaterinburg)', 'Novosibirsk', 'Krasnodar Krai'],
+    sampleRegions: [
+      'Tatarstan (Kazan)',
+      'Sverdlovsk (Yekaterinburg)',
+      'Novosibirsk',
+      'Krasnodar Krai',
+    ],
     demographics: {
       totalPopulation: '144,236,781',
       ruralPercentage: 25.2,
@@ -177,7 +198,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$4.9 Billion',
           sector: 'Healthcare',
           status: 'On Track',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -185,7 +206,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 19.8,
       copernicusSatelliteHeatScore: 41.5,
       meteorologicalAlertLevel: 'Normal',
-    }
+    },
   },
   CN: {
     code: 'CN',
@@ -198,7 +219,12 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
     openDataPortalUrl: 'https://data.gov.cn',
     censusAgency: 'National Bureau of Statistics',
     primaryLanguages: ['Mandarin Chinese', 'Cantonese'],
-    sampleRegions: ['Sichuan (Liangshan)', 'Hebei (Shijiazhuang)', 'Guangdong (Foshan)', 'Henan (Zhengzhou)'],
+    sampleRegions: [
+      'Sichuan (Liangshan)',
+      'Hebei (Shijiazhuang)',
+      'Guangdong (Foshan)',
+      'Henan (Zhengzhou)',
+    ],
     demographics: {
       totalPopulation: '1,409,670,000',
       ruralPercentage: 34.8,
@@ -237,7 +263,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$12.4 Billion',
           sector: 'Healthcare',
           status: 'On Track',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -245,7 +271,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 42.1,
       copernicusSatelliteHeatScore: 59.4,
       meteorologicalAlertLevel: 'Normal',
-    }
+    },
   },
   ZA: {
     code: 'ZA',
@@ -258,7 +284,12 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
     openDataPortalUrl: 'https://gov.za',
     censusAgency: 'Statistics South Africa (Stats SA)',
     primaryLanguages: ['English', 'isiZulu', 'isiXhosa', 'Afrikaans', 'Sesotho'],
-    sampleRegions: ['KwaZulu-Natal (eThekwini / Inanda)', 'Eastern Cape (OR Tambo)', 'Gauteng (Soweto)', 'Limpopo (Vhembe)'],
+    sampleRegions: [
+      'KwaZulu-Natal (eThekwini / Inanda)',
+      'Eastern Cape (OR Tambo)',
+      'Gauteng (Soweto)',
+      'Limpopo (Vhembe)',
+    ],
     demographics: {
       totalPopulation: '62,027,503',
       ruralPercentage: 31.7,
@@ -297,7 +328,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$980 Million',
           sector: 'Healthcare',
           status: 'Delayed',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -305,7 +336,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 61.2,
       copernicusSatelliteHeatScore: 71.0,
       meteorologicalAlertLevel: 'Critical Flood/Drought',
-    }
+    },
   },
   EG: {
     code: 'EG',
@@ -357,7 +388,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$1.4 Billion',
           sector: 'Healthcare',
           status: 'Delayed',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -365,7 +396,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 82.4,
       copernicusSatelliteHeatScore: 84.1,
       meteorologicalAlertLevel: 'Advisory',
-    }
+    },
   },
   ET: {
     code: 'ET',
@@ -378,7 +409,12 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
     openDataPortalUrl: 'https://data.gov.et',
     censusAgency: 'Ethiopian Statistics Service (ESS)',
     primaryLanguages: ['Amharic', 'Afaan Oromo', 'Tigrinya', 'English'],
-    sampleRegions: ['Oromia (Adama / Jimma)', 'Amhara (Bahir Dar)', 'Somali Region (Jijiga)', 'Sidama (Hawassa)'],
+    sampleRegions: [
+      'Oromia (Adama / Jimma)',
+      'Amhara (Bahir Dar)',
+      'Somali Region (Jijiga)',
+      'Sidama (Hawassa)',
+    ],
     demographics: {
       totalPopulation: '126,527,060',
       ruralPercentage: 77.2,
@@ -417,7 +453,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$450 Million',
           sector: 'Healthcare',
           status: 'On Track',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -425,7 +461,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 74.0,
       copernicusSatelliteHeatScore: 78.2,
       meteorologicalAlertLevel: 'Critical Flood/Drought',
-    }
+    },
   },
   IR: {
     code: 'IR',
@@ -477,7 +513,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$1.2 Billion',
           sector: 'Healthcare',
           status: 'On Track',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -485,7 +521,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 88.5,
       copernicusSatelliteHeatScore: 89.1,
       meteorologicalAlertLevel: 'Critical Flood/Drought',
-    }
+    },
   },
   SA: {
     code: 'SA',
@@ -537,7 +573,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$4.8 Billion',
           sector: 'Healthcare',
           status: 'On Track',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -545,7 +581,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 94.0,
       copernicusSatelliteHeatScore: 92.4,
       meteorologicalAlertLevel: 'Normal',
-    }
+    },
   },
   AE: {
     code: 'AE',
@@ -558,7 +594,11 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
     openDataPortalUrl: 'https://bayanat.ae',
     censusAgency: 'Federal Competitiveness and Statistics Centre (FCSC)',
     primaryLanguages: ['Arabic', 'English'],
-    sampleRegions: ['Northern Emirates (Ras Al Khaimah / Fujairah)', 'Abu Dhabi (Al Ain)', 'Sharjah Rural'],
+    sampleRegions: [
+      'Northern Emirates (Ras Al Khaimah / Fujairah)',
+      'Abu Dhabi (Al Ain)',
+      'Sharjah Rural',
+    ],
     demographics: {
       totalPopulation: '9,923,800',
       ruralPercentage: 12.0,
@@ -597,7 +637,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$2.3 Billion',
           sector: 'Healthcare',
           status: 'On Track',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -605,7 +645,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 96.0,
       copernicusSatelliteHeatScore: 94.0,
       meteorologicalAlertLevel: 'Normal',
-    }
+    },
   },
   ID: {
     code: 'ID',
@@ -618,7 +658,12 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
     openDataPortalUrl: 'https://data.go.id',
     censusAgency: 'BPS (Badan Pusat Statistik)',
     primaryLanguages: ['Bahasa Indonesia', 'English', 'Javanese'],
-    sampleRegions: ['East Java (Madura)', 'Kalimantan (IKN Ring)', 'North Sumatra (Medan Rural)', 'Sulawesi (Makassar)'],
+    sampleRegions: [
+      'East Java (Madura)',
+      'Kalimantan (IKN Ring)',
+      'North Sumatra (Medan Rural)',
+      'Sulawesi (Makassar)',
+    ],
     demographics: {
       totalPopulation: '278,696,200',
       ruralPercentage: 42.1,
@@ -657,7 +702,7 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
           budgetUSD: '$1.9 Billion',
           sector: 'Healthcare',
           status: 'On Track',
-        }
+        },
       ],
     },
     publicDataFeeds: {
@@ -665,8 +710,8 @@ export const BRICS_COUNTRIES: Record<BricsCountryCode, BricsCountry> = {
       faoAgriWaterStress: 34.2,
       copernicusSatelliteHeatScore: 62.0,
       meteorologicalAlertLevel: 'Advisory',
-    }
-  }
+    },
+  },
 };
 
 export const INITIAL_CITIZEN_GRIEVANCES: CitizenGrievance[] = [
@@ -676,17 +721,21 @@ export const INITIAL_CITIZEN_GRIEVANCES: CitizenGrievance[] = [
     region: 'Tamil Nadu (Madurai / Melur Taluk)',
     channel: 'Voice IVR',
     originalLanguage: 'Tamil (தமிழ்)',
-    originalText: 'மேலூர் தாலுகா எட்டிமங்கலம் கிராமத்தில் கடந்த 12 நாட்களாக ஜல் ஜீவன் குடிநீர் பைப்லைன் உடைந்து 180 குடும்பங்களுக்கு தண்ணீர் வரவில்லை. பள்ளி செல்லும் சிறுமிகள் 3 கி.மீ நடந்து சென்று கிணற்றில் நீர் எடுக்க வேண்டியுள்ளது. உடனடியாக சரிசெய்யவும்.',
-    englishTranslation: 'In Ettimangalam village, Melur Taluk, the drinking water pipeline under Jal Jeevan Mission has been ruptured for 12 days. Over 180 households have zero potable water supply. School girls are walking 3 km to draw well water. Immediate repair required.',
+    originalText:
+      'மேலூர் தாலுகா எட்டிமங்கலம் கிராமத்தில் கடந்த 12 நாட்களாக ஜல் ஜீவன் குடிநீர் பைப்லைன் உடைந்து 180 குடும்பங்களுக்கு தண்ணீர் வரவில்லை. பள்ளி செல்லும் சிறுமிகள் 3 கி.மீ நடந்து சென்று கிணற்றில் நீர் எடுக்க வேண்டியுள்ளது. உடனடியாக சரிசெய்யவும்.',
+    englishTranslation:
+      'In Ettimangalam village, Melur Taluk, the drinking water pipeline under Jal Jeevan Mission has been ruptured for 12 days. Over 180 households have zero potable water supply. School girls are walking 3 km to draw well water. Immediate repair required.',
     sector: 'Water & Sanitation',
     urgency: 'Emergency',
     timestamp: '2026-08-18 10:14 UTC',
     citizenContactAnonymized: '+91 9842XXXX31 (Voice IVR Gateway #4)',
     audioDurationSeconds: 24,
-    photoUrl: 'https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=800&auto=format&fit=crop&q=60',
-    photoDescription: 'Ruptured PVC main pipeline with water stagnation causing contamination in Ettimangalam village.',
+    photoUrl:
+      'https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=800&auto=format&fit=crop&q=60',
+    photoDescription:
+      'Ruptured PVC main pipeline with water stagnation causing contamination in Ettimangalam village.',
     visionDamageScore: 88,
-    status: 'Cross-Referenced'
+    status: 'Cross-Referenced',
   },
   {
     id: 'GRV-IN-2026-8813',
@@ -694,16 +743,19 @@ export const INITIAL_CITIZEN_GRIEVANCES: CitizenGrievance[] = [
     region: 'Tamil Nadu (Tirunelveli / Ambasamudram)',
     channel: 'Multimodal Photo Inspection',
     originalLanguage: 'Tamil (தமிழ்)',
-    originalText: 'அம்பாசமுத்திரம் மெயின் ரோட்டில் கனமழையால் 4 அடி ஆழ பள்ளங்கள் ஏற்பட்டுள்ளது. ஆம்புலன்ஸ் கூட வரமுடியவில்லை. PMGSY சாலை சீரமைப்பு நிதி எங்கே சென்றது?',
-    englishTranslation: 'Severe 4-ft deep craters and asphalt erosion on Ambasamudram main road following heavy rains. Emergency ambulances cannot access the primary health clinic. Immediate PMGSY repair needed.',
+    originalText:
+      'அம்பாசமுத்திரம் மெயின் ரோட்டில் கனமழையால் 4 அடி ஆழ பள்ளங்கள் ஏற்பட்டுள்ளது. ஆம்புலன்ஸ் கூட வரமுடியவில்லை. PMGSY சாலை சீரமைப்பு நிதி எங்கே சென்றது?',
+    englishTranslation:
+      'Severe 4-ft deep craters and asphalt erosion on Ambasamudram main road following heavy rains. Emergency ambulances cannot access the primary health clinic. Immediate PMGSY repair needed.',
     sector: 'Roads & Highways',
     urgency: 'High',
     timestamp: '2026-08-18 09:42 UTC',
     citizenContactAnonymized: '+91 9443XXXX89 (Mobile Web App)',
-    photoUrl: 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=800&auto=format&fit=crop&q=60',
+    photoUrl:
+      'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=800&auto=format&fit=crop&q=60',
     photoDescription: 'Collapsed road culvert and severe waterlogging blocking ambulance access.',
     visionDamageScore: 82,
-    status: 'Cross-Referenced'
+    status: 'Cross-Referenced',
   },
   {
     id: 'GRV-BR-2026-4401',
@@ -711,16 +763,19 @@ export const INITIAL_CITIZEN_GRIEVANCES: CitizenGrievance[] = [
     region: 'Bahia (Feira de Santana / Sertão District)',
     channel: 'Messaging Apps',
     originalLanguage: 'Portuguese',
-    originalText: 'A tubulação do Novo PAC Água para Todos está com vazamento grave há 3 semanas no bairro Campo Limpo. Mais de 400 famílias sem água tratada durante a seca.',
-    englishTranslation: 'The Novo PAC Water for All distribution pipe has suffered a severe leak for 3 weeks in Campo Limpo neighborhood. Over 400 families without treated drinking water during severe drought.',
+    originalText:
+      'A tubulação do Novo PAC Água para Todos está com vazamento grave há 3 semanas no bairro Campo Limpo. Mais de 400 famílias sem água tratada durante a seca.',
+    englishTranslation:
+      'The Novo PAC Water for All distribution pipe has suffered a severe leak for 3 weeks in Campo Limpo neighborhood. Over 400 families without treated drinking water during severe drought.',
     sector: 'Water & Sanitation',
     urgency: 'High',
     timestamp: '2026-08-18 08:30 UTC',
     citizenContactAnonymized: '+55 75 998XX-XX19 (WhatsApp Bot)',
-    photoUrl: 'https://images.unsplash.com/photo-1541888946425-d0fbb18086f6?w=800&auto=format&fit=crop&q=60',
+    photoUrl:
+      'https://images.unsplash.com/photo-1541888946425-d0fbb18086f6?w=800&auto=format&fit=crop&q=60',
     photoDescription: 'Dry community cistern with cracked distribution manifold.',
     visionDamageScore: 79,
-    status: 'Cross-Referenced'
+    status: 'Cross-Referenced',
   },
   {
     id: 'GRV-EG-2026-3104',
@@ -728,16 +783,19 @@ export const INITIAL_CITIZEN_GRIEVANCES: CitizenGrievance[] = [
     region: 'Asyut (Dairut District / Upper Egypt)',
     channel: 'SMS Telephony',
     originalLanguage: 'Arabic',
-    originalText: 'مشروع حياة كريمة: الوحدة الصحية بقرية بني يحيى بدون أطباء ومولد الكهرباء معطل منذ شهرين مما يعطل ثلاجات حفظ التطعيمات للأطفال.',
-    englishTranslation: 'Decent Life project audit: Bani Yahya village health clinic has been without a resident physician and the backup generator has failed for 2 months, jeopardizing pediatric vaccine refrigeration.',
+    originalText:
+      'مشروع حياة كريمة: الوحدة الصحية بقرية بني يحيى بدون أطباء ومولد الكهرباء معطل منذ شهرين مما يعطل ثلاجات حفظ التطعيمات للأطفال.',
+    englishTranslation:
+      'Decent Life project audit: Bani Yahya village health clinic has been without a resident physician and the backup generator has failed for 2 months, jeopardizing pediatric vaccine refrigeration.',
     sector: 'Healthcare',
     urgency: 'Emergency',
     timestamp: '2026-08-18 06:50 UTC',
     citizenContactAnonymized: '+20 10 XXXX 9182 (IVR Dial-In)',
-    photoUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop&q=60',
+    photoUrl:
+      'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop&q=60',
     photoDescription: 'Rural clinic vaccine storage facility with disabled emergency generator.',
     visionDamageScore: 91,
-    status: 'Cross-Referenced'
+    status: 'Cross-Referenced',
   },
   {
     id: 'GRV-ZA-2026-5520',
@@ -745,18 +803,21 @@ export const INITIAL_CITIZEN_GRIEVANCES: CitizenGrievance[] = [
     region: 'KwaZulu-Natal (eThekwini / Inanda)',
     channel: 'Voice IVR',
     originalLanguage: 'isiZulu',
-    originalText: 'Amanzi awaphumi kompompi e-Inanda sekuphele amasonto amathathu. Isibhedlela asikwazi ukusebenza kahle. Sidinga u-MIG ukuthi alungise lokhu masinyane.',
-    englishTranslation: 'Taps have been completely dry in Inanda for three consecutive weeks. The local community hospital cannot function without water tankers. We need Municipal Infrastructure Grant (MIG) deployment.',
+    originalText:
+      'Amanzi awaphumi kompompi e-Inanda sekuphele amasonto amathathu. Isibhedlela asikwazi ukusebenza kahle. Sidinga u-MIG ukuthi alungise lokhu masinyane.',
+    englishTranslation:
+      'Taps have been completely dry in Inanda for three consecutive weeks. The local community hospital cannot function without water tankers. We need Municipal Infrastructure Grant (MIG) deployment.',
     sector: 'Water & Sanitation',
     urgency: 'Emergency',
     timestamp: '2026-08-18 05:22 UTC',
     citizenContactAnonymized: '+27 82 XXXX 109 (Voice Toll-Free)',
     audioDurationSeconds: 31,
-    photoUrl: 'https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=800&auto=format&fit=crop&q=60',
+    photoUrl:
+      'https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=800&auto=format&fit=crop&q=60',
     photoDescription: 'Main feeder tank dry with queues of elderly citizens carrying buckets.',
     visionDamageScore: 86,
-    status: 'Cross-Referenced'
-  }
+    status: 'Cross-Referenced',
+  },
 ];
 
 export const DEMAND_HOTSPOTS: DemandHotspot[] = [
@@ -772,7 +833,8 @@ export const DEMAND_HOTSPOTS: DemandHotspot[] = [
     activePublicProject: 'Jal Jeevan Mission (Har Ghar Jal)',
     budgetAllocatedUSD: '$8.4 Billion',
     disbursementVelocity: 'Stalled',
-    recommendedIntervention: 'Release $2.4M emergency pipe replacement tranche to Melur Block Public Works within 14 days.',
+    recommendedIntervention:
+      'Release $2.4M emergency pipe replacement tranche to Melur Block Public Works within 14 days.',
     urgencyRank: 1,
   },
   {
@@ -787,7 +849,8 @@ export const DEMAND_HOTSPOTS: DemandHotspot[] = [
     activePublicProject: 'Municipal Infrastructure Grant (MIG - Water)',
     budgetAllocatedUSD: '$2.1 Billion',
     disbursementVelocity: 'Stalled',
-    recommendedIntervention: 'Deploy mobile filtration units and audit municipal tender compliance for regional bulk water connections.',
+    recommendedIntervention:
+      'Deploy mobile filtration units and audit municipal tender compliance for regional bulk water connections.',
     urgencyRank: 1,
   },
   {
@@ -802,7 +865,8 @@ export const DEMAND_HOTSPOTS: DemandHotspot[] = [
     activePublicProject: 'Hayah Karima (حياة كريمة) Health Transformation',
     budgetAllocatedUSD: '$12.0 Billion',
     disbursementVelocity: 'Under-funded',
-    recommendedIntervention: 'Dispatch mobile clinic backup generators and reallocate $850K pediatric cold-chain emergency funding.',
+    recommendedIntervention:
+      'Dispatch mobile clinic backup generators and reallocate $850K pediatric cold-chain emergency funding.',
     urgencyRank: 2,
   },
   {
@@ -817,7 +881,8 @@ export const DEMAND_HOTSPOTS: DemandHotspot[] = [
     activePublicProject: 'Novo PAC Água para Todos',
     budgetAllocatedUSD: '$14.2 Billion',
     disbursementVelocity: 'Stalled',
-    recommendedIntervention: 'Fast-track contractor audit and release regional distribution pipeline repairs across Bahia Sertão.',
+    recommendedIntervention:
+      'Fast-track contractor audit and release regional distribution pipeline repairs across Bahia Sertão.',
     urgencyRank: 2,
   },
   {
@@ -832,7 +897,8 @@ export const DEMAND_HOTSPOTS: DemandHotspot[] = [
     activePublicProject: 'Universal Rural Road Access Program (URRAP)',
     budgetAllocatedUSD: '$1.1 Billion',
     disbursementVelocity: 'Under-funded',
-    recommendedIntervention: 'Provide emergency culvert rehabilitation grants to restore market road access before harvest season.',
+    recommendedIntervention:
+      'Provide emergency culvert rehabilitation grants to restore market road access before harvest season.',
     urgencyRank: 1,
   },
   {
@@ -847,9 +913,10 @@ export const DEMAND_HOTSPOTS: DemandHotspot[] = [
     activePublicProject: '乡村振兴战略基础设施 (Rural Revitalization)',
     budgetAllocatedUSD: '$38.5 Billion',
     disbursementVelocity: 'On Track',
-    recommendedIntervention: 'Complete landslide reinforcement and fiber broadband integration across mountain settlements.',
+    recommendedIntervention:
+      'Complete landslide reinforcement and fiber broadband integration across mountain settlements.',
     urgencyRank: 3,
-  }
+  },
 ];
 
 export const POLICYMAKER_RECOMMENDATIONS: PolicymakerProjectRecommendation[] = [
@@ -861,10 +928,16 @@ export const POLICYMAKER_RECOMMENDATIONS: PolicymakerProjectRecommendation[] = [
     priorityLevel: 'Immediate (0-30 Days)',
     estimatedCostUSD: '$2,400,000',
     projectedBeneficiaries: 84000,
-    fusedEvidenceRationale: '1,420 citizen voice grievances corroborated by Census 2011 vulnerable index (42.8) and 74.2% water coverage baseline in MoSPI data.',
-    sourceBaselineDatasets: ['Data.gov.in (Jal Jeevan Mission Open Repository)', 'Census of India / MoSPI Rural Census', 'Copernicus Satellite Soil Moisture Feed'],
-    recommendedProcurementAction: 'Issue emergency administrative sanction via state water supply board with zero-delay contractor mobilization.',
-    dpgComplianceStandard: 'DPG Verified'
+    fusedEvidenceRationale:
+      '1,420 citizen voice grievances corroborated by Census 2011 vulnerable index (42.8) and 74.2% water coverage baseline in MoSPI data.',
+    sourceBaselineDatasets: [
+      'Data.gov.in (Jal Jeevan Mission Open Repository)',
+      'Census of India / MoSPI Rural Census',
+      'Copernicus Satellite Soil Moisture Feed',
+    ],
+    recommendedProcurementAction:
+      'Issue emergency administrative sanction via state water supply board with zero-delay contractor mobilization.',
+    dpgComplianceStandard: 'DPG Verified',
   },
   {
     id: 'REC-ZA-01',
@@ -874,10 +947,16 @@ export const POLICYMAKER_RECOMMENDATIONS: PolicymakerProjectRecommendation[] = [
     priorityLevel: 'Immediate (0-30 Days)',
     estimatedCostUSD: '$3,800,000',
     projectedBeneficiaries: 68000,
-    fusedEvidenceRationale: '1,240 IVR reports fused with Stats SA community survey showing 31% municipal infrastructure deficit in Inanda ward.',
-    sourceBaselineDatasets: ['Stats SA Community Survey 2024', 'Department of Water & Sanitation Open Portal', 'WHO WASH Baseline 2025'],
-    recommendedProcurementAction: 'Invoke Municipal Finance Management Act (MFMA) emergency relief clauses to fast-track pipe supplier contracts.',
-    dpgComplianceStandard: 'DPG Verified'
+    fusedEvidenceRationale:
+      '1,240 IVR reports fused with Stats SA community survey showing 31% municipal infrastructure deficit in Inanda ward.',
+    sourceBaselineDatasets: [
+      'Stats SA Community Survey 2024',
+      'Department of Water & Sanitation Open Portal',
+      'WHO WASH Baseline 2025',
+    ],
+    recommendedProcurementAction:
+      'Invoke Municipal Finance Management Act (MFMA) emergency relief clauses to fast-track pipe supplier contracts.',
+    dpgComplianceStandard: 'DPG Verified',
   },
   {
     id: 'REC-EG-01',
@@ -887,10 +966,16 @@ export const POLICYMAKER_RECOMMENDATIONS: PolicymakerProjectRecommendation[] = [
     priorityLevel: 'Immediate (0-30 Days)',
     estimatedCostUSD: '$1,200,000',
     projectedBeneficiaries: 52000,
-    fusedEvidenceRationale: '730 citizen SMS reports cross-referenced with CAPMAS rural clinic inventory revealing power grid vulnerability in Asyut governorate.',
-    sourceBaselineDatasets: ['CAPMAS Open Data Repository', 'Hayah Karima Project Tracking Portal', 'WHO Essential Medicines Monitoring Feed'],
-    recommendedProcurementAction: 'Direct centralized procurement of solar-hybrid medical cold storage units through the Unified Procurement Authority.',
-    dpgComplianceStandard: 'DPG Verified'
+    fusedEvidenceRationale:
+      '730 citizen SMS reports cross-referenced with CAPMAS rural clinic inventory revealing power grid vulnerability in Asyut governorate.',
+    sourceBaselineDatasets: [
+      'CAPMAS Open Data Repository',
+      'Hayah Karima Project Tracking Portal',
+      'WHO Essential Medicines Monitoring Feed',
+    ],
+    recommendedProcurementAction:
+      'Direct centralized procurement of solar-hybrid medical cold storage units through the Unified Procurement Authority.',
+    dpgComplianceStandard: 'DPG Verified',
   },
   {
     id: 'REC-BR-01',
@@ -900,10 +985,16 @@ export const POLICYMAKER_RECOMMENDATIONS: PolicymakerProjectRecommendation[] = [
     priorityLevel: 'High Priority (Q1)',
     estimatedCostUSD: '$5,100,000',
     projectedBeneficiaries: 46000,
-    fusedEvidenceRationale: '840 WhatsApp citizen submissions verified against IBGE Agreste/Sertão demographic survey and Novo PAC regional budget.',
-    sourceBaselineDatasets: ['Dados.gov.br (Novo PAC Open Feed)', 'IBGE Censo Demográfico', 'FAO Global Agro-Ecological Water Stress Dataset'],
-    recommendedProcurementAction: 'Reallocate Novo PAC state reserve funds to certified regional civil engineering co-operatives.',
-    dpgComplianceStandard: 'DPG Verified'
+    fusedEvidenceRationale:
+      '840 WhatsApp citizen submissions verified against IBGE Agreste/Sertão demographic survey and Novo PAC regional budget.',
+    sourceBaselineDatasets: [
+      'Dados.gov.br (Novo PAC Open Feed)',
+      'IBGE Censo Demográfico',
+      'FAO Global Agro-Ecological Water Stress Dataset',
+    ],
+    recommendedProcurementAction:
+      'Reallocate Novo PAC state reserve funds to certified regional civil engineering co-operatives.',
+    dpgComplianceStandard: 'DPG Verified',
   },
   {
     id: 'REC-ET-01',
@@ -913,11 +1004,17 @@ export const POLICYMAKER_RECOMMENDATIONS: PolicymakerProjectRecommendation[] = [
     priorityLevel: 'Immediate (0-30 Days)',
     estimatedCostUSD: '$1,900,000',
     projectedBeneficiaries: 92000,
-    fusedEvidenceRationale: '610 voice reports verified against ESS rural connectivity index (38.0% paved roads) and URRAP annual budget allocations.',
-    sourceBaselineDatasets: ['Data.gov.et (National Transport Baseline)', 'Ethiopian Statistics Service Demographic Board', 'Copernicus Precipitation Anomalies'],
-    recommendedProcurementAction: 'Deploy regional road maintenance teams with pre-fabricated drainage culverts before heavy rains resume.',
-    dpgComplianceStandard: 'DPG Verified'
-  }
+    fusedEvidenceRationale:
+      '610 voice reports verified against ESS rural connectivity index (38.0% paved roads) and URRAP annual budget allocations.',
+    sourceBaselineDatasets: [
+      'Data.gov.et (National Transport Baseline)',
+      'Ethiopian Statistics Service Demographic Board',
+      'Copernicus Precipitation Anomalies',
+    ],
+    recommendedProcurementAction:
+      'Deploy regional road maintenance teams with pre-fabricated drainage culverts before heavy rains resume.',
+    dpgComplianceStandard: 'DPG Verified',
+  },
 ];
 
 export const GOOGLE_AI_STACK = [
@@ -925,49 +1022,49 @@ export const GOOGLE_AI_STACK = [
     category: 'Generative AI & agents',
     tools: 'Gemini API, Google AI Studio, Vertex AI',
     role: 'Multi-jurisdictional AI Governance & Data-Fusion synthesizing citizen feedback with official government datasets.',
-    status: 'Active (Gemini 3.7 & Flash)',
-    icon: 'Sparkles'
+    status: 'Server-Side Gemini API',
+    icon: 'Sparkles',
   },
   {
     category: 'Predictive modelling',
     tools: 'Vertex AI — AutoML, custom scoring models',
     role: 'Infrastructure Gap Delta Score (1-100) and demand intensity predictive ranking across 11 BRICS member states.',
     status: 'Active (Algorithmic & AI)',
-    icon: 'TrendingUp'
+    icon: 'TrendingUp',
   },
   {
     category: 'Vision & multimodal',
     tools: 'Gemini Multimodal, Vertex AI Vision',
     role: 'Citizen photo analysis for pothole severity, ruptured water mains, powerline failures, and clinic shortages.',
     status: 'Active (Multimodal Vision API)',
-    icon: 'Eye'
+    icon: 'Eye',
   },
   {
     category: 'Language & voice',
     tools: 'Cloud Speech-to-Text, Translation API, Dialogflow',
     role: 'Voice-first recording, IVR toll-free dialpad simulation, and translation across Tamil, Hindi, Portuguese, Russian, Arabic, Amharic.',
     status: 'Active (Multilingual Audio)',
-    icon: 'Mic'
+    icon: 'Mic',
   },
   {
     category: 'Geospatial',
     tools: 'Google Maps Platform, Google Earth Engine',
     role: 'Spatial GIS heatmap, demand hotspot visualizer, EPSG:4326 sovereign projection, and satellite overlay.',
     status: 'Active (GIS Engine)',
-    icon: 'MapPin'
+    icon: 'MapPin',
   },
   {
     category: 'Data & backend',
     tools: 'BigQuery, Firebase, Cloud Run, Express / Node',
-    role: 'Large-scale cross-border data federation, zero-hallucination SHA-256 provenance hashes, DPG architecture.',
-    status: 'Active (Full-Stack Engine)',
-    icon: 'Database'
+    role: 'Large-scale cross-border data federation, canonical SHA-256 payload digests, DPG architecture.',
+    status: 'Full-Stack Express Engine',
+    icon: 'Database',
   },
   {
     category: 'Public data',
     tools: 'BRICS Open Data Portals, FAO, WHO, Copernicus',
     role: 'Official baseline datasets (Data.gov.in, Dados.gov.br, Rosstat, CAPMAS, WHO health indices, FAO water stress).',
     status: 'Active (Federated Baselines)',
-    icon: 'Globe'
-  }
+    icon: 'Globe',
+  },
 ];
