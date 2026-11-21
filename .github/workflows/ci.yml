@@ -10,31 +10,29 @@ jobs:
   verify:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20, 22]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
+          node-version: 22
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Lint and TypeScript typecheck
-        run: npm run lint
+        run: bun run lint
 
       - name: Check formatting
-        run: npx prettier --check .
+        run: bunx prettier --check .
 
       - name: Run Vitest suite with coverage
-        run: npm run test:coverage
+        run: bun run test:coverage
 
       - name: Build client and server bundles
-        run: npm run build
+        run: bun run build
