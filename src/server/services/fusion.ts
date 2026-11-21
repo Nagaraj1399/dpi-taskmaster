@@ -240,14 +240,19 @@ async function resolveImageData(
       );
     }
 
-    const contentType = response.headers.get('content-type') ?? 'image/jpeg';
+    const rawContentType = response.headers.get('content-type') ?? 'image/jpeg';
+    const mimeType = (rawContentType.split(';')[0] ?? 'image/jpeg').trim().toLowerCase();
+    if (!mimeType.startsWith('image/')) {
+      throw new ValidationError('Fetched resource did not return a valid image content type.');
+    }
+
     const arrayBuffer = await response.arrayBuffer();
     if (arrayBuffer.byteLength > MAX_FETCHED_PHOTO_BYTES) {
       throw new ValidationError('Fetched photograph exceeds maximum allowed byte size.');
     }
 
     return {
-      mimeType: contentType.split(';')[0] ?? 'image/jpeg',
+      mimeType,
       base64Data: Buffer.from(arrayBuffer).toString('base64'),
     };
   } catch (err: unknown) {

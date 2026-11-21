@@ -26,16 +26,41 @@ describe('Dataset verification service and SSRF protections', () => {
     expect(hashA).toBe(hashB);
   });
 
-  it('blocks loopback, private, and cloud metadata addresses from SSRF probing', () => {
+  it('blocks loopback, private, IPv4-mapped IPv6, multicast, and cloud metadata addresses from SSRF probing', () => {
     expect(isBlockedHostnameOrIp('localhost')).toBe(true);
     expect(isBlockedHostnameOrIp('127.0.0.1')).toBe(true);
     expect(isBlockedHostnameOrIp('169.254.169.254')).toBe(true);
     expect(isBlockedHostnameOrIp('10.24.0.1')).toBe(true);
     expect(isBlockedHostnameOrIp('192.168.1.10')).toBe(true);
     expect(isBlockedHostnameOrIp('172.16.0.5')).toBe(true);
+    expect(isBlockedHostnameOrIp('224.0.0.1')).toBe(true);
     expect(isBlockedHostnameOrIp('::1')).toBe(true);
+    expect(isBlockedHostnameOrIp('::ffff:127.0.0.1')).toBe(true);
+    expect(isBlockedHostnameOrIp('::ffff:7f00:1')).toBe(true);
+    expect(isBlockedHostnameOrIp('::ffff:169.254.169.254')).toBe(true);
     expect(isBlockedHostnameOrIp('data.gov.in')).toBe(false);
     expect(isBlockedHostnameOrIp('8.8.8.8')).toBe(false);
+  });
+
+  it('ignores restricted hop-by-hop custom probe headers like Host', async () => {
+    const okFetch = vi.fn<typeof fetch>().mockResolvedValue(new Response(null, { status: 200 }));
+    const service = createVerificationService(silentLogger, okFetch);
+
+    await service.verifyAndSync({
+      countryCode: 'IN',
+      dataset: BRICS_COUNTRIES.IN,
+      customApiConfig: {
+        endpointUrl: 'https://api.data.gov.in/resource/test',
+        authHeaderType: 'Custom',
+        customHeaderKey: 'Host',
+        customHeaderValue: 'evil.example',
+        syncIntervalMinutes: 60,
+        lastSyncStatus: 'Idle',
+      },
+    });
+
+    const callInit = okFetch.mock.calls[0]?.[1];
+    expect(callInit?.headers).toEqual({ Accept: 'application/json' });
   });
 
   it('does not persist dataset updates when schema verification fails', async () => {

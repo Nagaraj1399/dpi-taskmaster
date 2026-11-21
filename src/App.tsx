@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CountrySelector } from './components/CountrySelector';
 import { CitizenIngestionHub } from './components/citizen-ingestion/CitizenIngestionHub';
 import { DataFusionEngine } from './components/data-fusion/DataFusionEngine';
@@ -32,6 +32,54 @@ interface FusionApiResponse {
   error?: ApiErrorResponse['error'];
 }
 
+type FusionFetchOutcome =
+  | { status: 'aborted' }
+  | { status: 'ok'; result: FusionResult }
+  | { status: 'error'; message: string };
+
+async function fetchFusionAnalysis(
+  grievance: CitizenGrievance,
+  signal: AbortSignal
+): Promise<FusionFetchOutcome> {
+  try {
+    const response = await fetch('/api/fusion/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal,
+      body: JSON.stringify({
+        grievance,
+        countryCode: grievance.countryCode,
+      }),
+    });
+
+    const data = (await response.json()) as FusionApiResponse;
+    if (signal.aborted) {
+      return { status: 'aborted' };
+    }
+
+    if (!response.ok || !data.success || !data.result) {
+      return {
+        status: 'error',
+        message:
+          data.error?.message ?? `Server fusion analysis failed with status ${response.status}.`,
+      };
+    }
+
+    return { status: 'ok', result: data.result };
+  } catch (err: unknown) {
+    if (signal.aborted) {
+      return { status: 'aborted' };
+    }
+    return {
+      status: 'error',
+      message:
+        err instanceof Error
+          ? `Unable to reach the AI fusion service: ${err.message}`
+          : 'Unable to reach the AI fusion service.',
+    };
+  }
+}
+
 /**
  * Root CivicPulse BRICS application coordinating multi-jurisdictional dataset baselines,
  * citizen telemetry intake, server-side AI fusion, and policymaker analytics.
@@ -49,6 +97,7 @@ export default function App() {
   const [fusionError, setFusionError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(INITIAL_CITIZEN_GRIEVANCES.length > 0);
   const [isTelemetryModalOpen, setIsTelemetryModalOpen] = useState<boolean>(false);
+  const fusionAbortRef = useRef<AbortController | null>(null);
 
   const currentCountry = countries[selectedCountryCode] ?? countries.IN;
 
@@ -65,50 +114,29 @@ export default function App() {
     }));
   };
 
-  const executeFusionRequest = useCallback(async (grievance: CitizenGrievance) => {
-    try {
-      const response = await fetch('/api/fusion/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          grievance,
-          countryCode: grievance.countryCode,
-        }),
-      });
+  const handleRunFusion = useCallback(async (grievance: CitizenGrievance) => {
+    fusionAbortRef.current?.abort();
+    const controller = new AbortController();
+    fusionAbortRef.current = controller;
 
-      const data = (await response.json()) as FusionApiResponse;
+    setIsLoading(true);
+    setFusionError(null);
+    setSelectedGrievance(grievance);
+    setSelectedCountryCode(grievance.countryCode);
 
-      if (!response.ok || !data.success || !data.result) {
-        setFusionResult(null);
-        setFusionError(
-          data.error?.message ?? `Server fusion analysis failed with status ${response.status}.`
-        );
-        return;
-      }
-
-      setFusionResult(data.result);
-    } catch (err: unknown) {
-      setFusionResult(null);
-      setFusionError(
-        err instanceof Error
-          ? `Unable to reach the AI fusion service: ${err.message}`
-          : 'Unable to reach the AI fusion service.'
-      );
-    } finally {
-      setIsLoading(false);
+    const outcome = await fetchFusionAnalysis(grievance, controller.signal);
+    if (outcome.status === 'aborted') {
+      return;
     }
-  }, []);
 
-  const handleRunFusion = useCallback(
-    async (grievance: CitizenGrievance) => {
-      setIsLoading(true);
-      setFusionError(null);
-      setSelectedGrievance(grievance);
-      setSelectedCountryCode(grievance.countryCode);
-      await executeFusionRequest(grievance);
-    },
-    [executeFusionRequest]
-  );
+    if (outcome.status === 'ok') {
+      setFusionResult(outcome.result);
+    } else {
+      setFusionResult(null);
+      setFusionError(outcome.message);
+    }
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     const initialGrievance = INITIAL_CITIZEN_GRIEVANCES[0];
@@ -116,52 +144,22 @@ export default function App() {
       return;
     }
 
+    fusionAbortRef.current?.abort();
     const controller = new AbortController();
+    fusionAbortRef.current = controller;
 
-    async function runInitialFusion(targetGrievance: CitizenGrievance) {
-      try {
-        const response = await fetch('/api/fusion/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          signal: controller.signal,
-          body: JSON.stringify({
-            grievance: targetGrievance,
-            countryCode: targetGrievance.countryCode,
-          }),
-        });
-
-        const data = (await response.json()) as FusionApiResponse;
-        if (controller.signal.aborted) {
-          return;
-        }
-
-        if (!response.ok || !data.success || !data.result) {
-          setFusionResult(null);
-          setFusionError(
-            data.error?.message ?? `Server fusion analysis failed with status ${response.status}.`
-          );
-          return;
-        }
-
-        setFusionResult(data.result);
-      } catch (err: unknown) {
-        if (controller.signal.aborted) {
-          return;
-        }
-        setFusionResult(null);
-        setFusionError(
-          err instanceof Error
-            ? `Unable to reach the AI fusion service: ${err.message}`
-            : 'Unable to reach the AI fusion service.'
-        );
-      } finally {
-        if (!controller.signal.aborted) {
-          setIsLoading(false);
-        }
+    void fetchFusionAnalysis(initialGrievance, controller.signal).then((outcome) => {
+      if (outcome.status === 'aborted') {
+        return;
       }
-    }
-
-    void runInitialFusion(initialGrievance);
+      if (outcome.status === 'ok') {
+        setFusionResult(outcome.result);
+      } else {
+        setFusionResult(null);
+        setFusionError(outcome.message);
+      }
+      setIsLoading(false);
+    });
 
     return () => {
       controller.abort();

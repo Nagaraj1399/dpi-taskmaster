@@ -119,12 +119,26 @@ export function computeCanonicalSha256(payload: unknown): string {
   return `sha256:${crypto.createHash('sha256').update(canonical).digest('hex')}`;
 }
 
+/** HTTP headers that must never be overridden by user-supplied external API connector configs. */
+const RESTRICTED_PROBE_HEADERS = new Set([
+  'host',
+  'content-length',
+  'transfer-encoding',
+  'connection',
+  'upgrade',
+  'te',
+  'cookie',
+  'proxy-authorization',
+]);
+
 /**
- * Checks whether a hostname or IP address targets loopback, private, or link-local networks.
+ * Checks whether a hostname or IP address targets loopback, private, link-local,
+ * multicast, or IPv4-mapped IPv6 internal networks.
  */
 export function isBlockedHostnameOrIp(rawHostname: string): boolean {
   const hostname = rawHostname.toLowerCase().replace(/^\[|\]$/g, '');
   if (
+    !hostname ||
     hostname === 'localhost' ||
     hostname.endsWith('.localhost') ||
     hostname.endsWith('.local') ||
@@ -142,13 +156,30 @@ export function isBlockedHostnameOrIp(rawHostname: string): boolean {
     if (a === 172 && b >= 16 && b <= 31) return true;
     if (a === 192 && b === 168) return true;
     if (a === 100 && b >= 64 && b <= 127) return true;
+    if (a >= 224) return true; // Multicast (224.0.0.0/4) & reserved/broadcast (240.0.0.0/4)
   } else if (ipVersion === 6) {
+    if (hostname.startsWith('::ffff:')) {
+      const mapped = hostname.slice('::ffff:'.length);
+      if (net.isIP(mapped) === 4) {
+        return isBlockedHostnameOrIp(mapped);
+      }
+      // Handle Node URL normalization of IPv4-mapped IPv6 to hex (e.g. ::ffff:7f00:1)
+      const hexMatch = mapped.match(/^([0-9a-f]{1,4}):([0-9a-f]{1,4})$/);
+      if (hexMatch?.[1] && hexMatch[2]) {
+        const hi = parseInt(hexMatch[1], 16);
+        const lo = parseInt(hexMatch[2], 16);
+        const ipv4 = `${(hi >> 8) & 0xff}.${hi & 0xff}.${(lo >> 8) & 0xff}.${lo & 0xff}`;
+        return isBlockedHostnameOrIp(ipv4);
+      }
+    }
+
     if (
       hostname === '::1' ||
       hostname === '::' ||
       hostname.startsWith('fe80:') ||
       hostname.startsWith('fc') ||
-      hostname.startsWith('fd')
+      hostname.startsWith('fd') ||
+      hostname.startsWith('ff')
     ) {
       return true;
     }
@@ -158,7 +189,8 @@ export function isBlockedHostnameOrIp(rawHostname: string): boolean {
 }
 
 /**
- * Builds outbound authentication headers for external government API probes.
+ * Builds outbound authentication headers for external government API probes,
+ * rejecting invalid header tokens or restricted hop-by-hop/host headers.
  */
 function buildProbeHeaders(config: CustomApiEndpointConfig): Record<string, string> {
   const headers: Record<string, string> = {
@@ -173,7 +205,13 @@ function buildProbeHeaders(config: CustomApiEndpointConfig): Record<string, stri
     config.customHeaderKey &&
     config.customHeaderValue
   ) {
-    headers[config.customHeaderKey] = config.customHeaderValue;
+    const trimmedKey = config.customHeaderKey.trim();
+    if (
+      /^[a-zA-Z0-9-]+$/.test(trimmedKey) &&
+      !RESTRICTED_PROBE_HEADERS.has(trimmedKey.toLowerCase())
+    ) {
+      headers[trimmedKey] = config.customHeaderValue;
+    }
   }
   return headers;
 }

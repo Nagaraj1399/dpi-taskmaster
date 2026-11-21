@@ -132,7 +132,12 @@ export const CustomApiEndpointConfigSchema = z.object({
     ),
   apiKey: z.string().max(512).optional(),
   authHeaderType: z.enum(['Bearer', 'ApiKey', 'Custom', 'None']),
-  customHeaderKey: z.string().max(128).optional(),
+  customHeaderKey: z
+    .string()
+    .trim()
+    .max(128)
+    .regex(/^[a-zA-Z0-9-]*$/, 'Custom header name may only contain letters, numbers, and hyphens')
+    .optional(),
   customHeaderValue: z.string().max(512).optional(),
   syncIntervalMinutes: z.number().int().min(1).max(10_080),
   lastSyncStatus: z.enum(['Connected', 'Pending Verification', 'Failed', 'Idle']),
